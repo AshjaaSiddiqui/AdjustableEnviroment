@@ -1,0 +1,63 @@
+# Blender MTL File: 'Wardrobe.blend'
+# Material Count: 5
+
+newmtl Wardrobe_Black_Plastic_Material
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd 2KTextures\\Wardrobe_BlackPlastic_Material_BaseColor.png
+map_Ns 2KTextures\\Wardrobe_BlackPlastic_Material_Roughness.png
+
+newmtl Wardrobe_Metal_Material
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd 2KTextures\\Wardrobe_Metal_Material_BaseColor.png
+refl 2KTextures\\Wardrobe_Metal_Material_Metallic.png
+
+newmtl Wardrobe_Mirror_Material
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd 2KTextures\\Wardrobe_Mirror_Material_BaseColor.png
+map_Ns 2KTextures\\Wardrobe_Mirror_Material_Roughness.png
+refl 2KTextures\\Wardrobe_Mirror_Material_Metallic.png
+
+newmtl Wardrobe_White_Plastic_Material
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd 2KTextures\\Wardrobe_WhitePlastic_Material_BaseColor.png
+map_Ns 2KTextures\\Wardrobe_WhitePlastic_Material_Roughness.png
+
+newmtl Wardrobe_Wood_Material
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd 2KTextures\\Wardrobe_Wood_Material_BaseColor.png
+map_Ns 2KTextures\\Wardrobe_Wood_Material_Roughness.png

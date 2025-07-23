@@ -14,6 +14,7 @@ TagManager:
   - QDSUIToggleButton
   - QDSUITextSecondaryColor
   - Wall
+  - Furniture
   layers:
   - Default
   - TransparentFX
