@@ -3,13 +3,20 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using UnityEditor.Rendering;
+
 public class Manager : MonoBehaviour
 {
     public Transform cameraRig;     // This is usually OVRCameraRig or XR Origin
     public Transform head;          // Main camera inside the rig
     public float playermoveSpeed = 2f;
+    public enum Place
+    {
+        Bedroom,
+        Office,
 
+
+    }
+    public Place place;
 
     public Transform rightHandRayOrigin;  // Assign RightHandAnchor
     public float rayLength = 15f;
@@ -17,11 +24,17 @@ public class Manager : MonoBehaviour
     public Renderer selectedRenderer;
     public Material selectedMaterial;
     public TextMeshProUGUI SelectedWall_text;
+    public TextMeshProUGUI SelectedFurniture_text;
     public Slider tilingXSlider;
     public Slider tilingYSlider;
     public Texture[] textures;
     public GameObject selectedFurniture;
     public GameObject Furniture;
+    public GameObject Bed_Room;
+    public GameObject Office;
+    public GameObject canvas;
+
+
 
     public bool isHolding = false;
     private int currentColorIndex = 0;
@@ -40,7 +53,11 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
-
+        lineRenderer.startWidth = 0.005f;
+        lineRenderer.endWidth = 0.05f;
+        lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
+        lineRenderer.material.color = Color.cyan;
+        lineRenderer.positionCount = 2;
         foreach (Transform item in Furniture.transform)
         {
             int Index = 0;
@@ -91,10 +108,13 @@ public class Manager : MonoBehaviour
         }
 
 
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch))
+        {
+            canvas.transform.position = new Vector3(cameraRig.transform.position.x, cameraRig.transform.position.y, cameraRig.transform.position.z + 3);  
+        }
 
-
-        // Detect right trigger press
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
+            // Detect right trigger press
+            if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
         {
             Ray ray = new Ray(rightHandRayOrigin.position, rightHandRayOrigin.forward);
             RaycastHit hit;
@@ -112,6 +132,7 @@ public class Manager : MonoBehaviour
                 if (hit.collider.CompareTag("Furniture"))
                 {
                     selectedFurniture = hit.collider.gameObject;
+                    SelectedFurniture_text.text = "Selected Furniture : " + selectedFurniture.gameObject.name;
                     Debug.Log("Furniture selected: " + selectedFurniture.name);
                 }
 
@@ -125,7 +146,7 @@ public class Manager : MonoBehaviour
                 Vector2 Input = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch);
 
                 // Only move if joystick input is not zero
-                 if (Input.sqrMagnitude > 0.01f)
+                if (Input.sqrMagnitude > 0.01f)
                 {
                     // Move relative to the world XZ plane
                     Vector3 move = new Vector3(Input.x, 0f, Input.y) * moveSpeed * Time.deltaTime;
@@ -159,16 +180,20 @@ public class Manager : MonoBehaviour
             Ray ray = new Ray(rightHandRayOrigin.position, rightHandRayOrigin.forward);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, rayLength))
+            if (Physics.Raycast(ray, out hit, rayLength) && !selectedFurniture.name.Contains("Door"))
             {
                 selectedFurniture.transform.position = new Vector3(hit.point.x, selectedFurniture.transform.position.y, hit.point.z);
             }
         }
 
         // Rotate while holding with B button (optional)
-        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch) && isHolding)
+        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch) && isHolding && !selectedFurniture.name.Contains("Door"))
         {
-            selectedFurniture.transform.Rotate(0f, 90f, 0f);
+            if (!selectedFurniture.gameObject.name.Contains("Chair"))
+            {
+                selectedFurniture.transform.Rotate(0f, 90f, 0f);
+            }
+            else { selectedFurniture.transform.Rotate(0, 0, 90f); }
         }
 
 
@@ -242,4 +267,21 @@ public class Manager : MonoBehaviour
         selectedFurniture.transform.GetChild(currentMeshIndex).gameObject.SetActive(true);
     }
 
+    public void SwitchSpace()
+    {
+
+        cameraRig.transform.position = new Vector3(0, 1.6f, 0);
+        if (Bed_Room.activeInHierarchy)
+        {
+            place = Place.Office;
+            Bed_Room.SetActive(false);
+            Office.SetActive(true);
+        }
+        else if (Office.activeInHierarchy)
+        {
+            place = Place.Bedroom;
+            Bed_Room.SetActive(true);
+            Office.SetActive(false);
+        }
+    }
 }
